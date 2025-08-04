@@ -1,0 +1,90 @@
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+require('dotenv').config();
+
+const User = require('./models/User');
+
+const createTestAccounts = async () => {
+  try {
+    // Connect to MongoDB
+    await mongoose.connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
+    console.log('Connected to MongoDB');
+
+    // Check if test accounts already exist
+    const existingNonSub = await User.findOne({ email: 'testnonsubscribe@gmail.com' });
+    const existingSub = await User.findOne({ email: 'testsubscribe@gmail.com' });
+    const existingAdmin = await User.findOne({ username: 'admin' });
+
+    // Create non-subscriber account if it doesn't exist
+    if (!existingNonSub) {
+      const nonSubUser = new User({
+        firstName: 'Test',
+        lastName: 'NonSubscriber',
+        email: 'testnonsubscribe@gmail.com',
+        password: 'password123', // Will be hashed by the User model
+        userType: 'non-subscriber',
+        isActive: true,
+        phone: '+1234567890',
+        nationality: 'United States'
+      });
+      await nonSubUser.save();
+      console.log('✅ Created non-subscriber test account: testnonsubscribe@gmail.com / password123');
+    } else {
+      console.log('⚠️  Non-subscriber test account already exists');
+    }
+
+    // Create subscriber account if it doesn't exist
+    if (!existingSub) {
+      const subUser = new User({
+        firstName: 'Test',
+        lastName: 'Subscriber',
+        email: 'testsubscribe@gmail.com',
+        password: 'password123', // Will be hashed by the User model
+        userType: 'subscriber',
+        isActive: true,
+        phone: '+1234567891',
+        nationality: 'United States'
+      });
+      await subUser.save();
+      console.log('✅ Created subscriber test account: testsubscribe@gmail.com / password123');
+    } else {
+      console.log('⚠️  Subscriber test account already exists');
+    }
+
+    // Create admin account if it doesn't exist
+    if (!existingAdmin) {
+      const adminUser = new User({
+        firstName: 'Admin',
+        lastName: 'User',
+        username: 'admin',
+        password: 'admin', // Will be hashed by the User model
+        userType: 'admin',
+        isActive: true,
+        phone: '+1234567892'
+      });
+      await adminUser.save();
+      console.log('✅ Created admin test account: admin / admin');
+    } else {
+      console.log('⚠️  Admin test account already exists');
+    }
+
+    console.log('\n🎉 Test accounts setup complete!');
+    console.log('\n📋 Available Test Accounts:');
+    console.log('1. Non-Subscriber: testnonsubscribe@gmail.com / password123');
+    console.log('2. Subscriber: testsubscribe@gmail.com / password123');
+    console.log('3. Admin: admin / admin');
+    
+    mongoose.connection.close();
+    process.exit(0);
+
+  } catch (error) {
+    console.error('❌ Error creating test accounts:', error);
+    process.exit(1);
+  }
+};
+
+createTestAccounts();

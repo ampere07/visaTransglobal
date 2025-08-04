@@ -1,0 +1,99 @@
+// Quick debug script to test login functionality
+const mongoose = require('mongoose');
+require('dotenv').config();
+
+const User = require('./models/User');
+
+const debugLogin = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
+    console.log('🔍 Debugging login system...\n');
+
+    // Check if test accounts exist
+    const testEmails = ['testnonsubscribe@gmail.com', 'testsubscribe@gmail.com'];
+    const testUsername = 'admin';
+
+    console.log('📋 Checking test accounts:');
+    
+    for (const email of testEmails) {
+      const user = await User.findOne({ email });
+      if (user) {
+        console.log(`✅ ${email} exists - Type: ${user.userType}, Active: ${user.isActive}`);
+        
+        // Test password comparison
+        const isMatch = await user.comparePassword('password123');
+        console.log(`   Password 'password123' matches: ${isMatch}`);
+      } else {
+        console.log(`❌ ${email} NOT FOUND`);
+      }
+    }
+
+    const adminUser = await User.findOne({ username: testUsername });
+    if (adminUser) {
+      console.log(`✅ ${testUsername} exists - Type: ${adminUser.userType}, Active: ${adminUser.isActive}`);
+      
+      // Test password comparison
+      const isMatch = await adminUser.comparePassword('admin');
+      console.log(`   Password 'admin' matches: ${isMatch}`);
+    } else {
+      console.log(`❌ ${testUsername} NOT FOUND`);
+    }
+
+    console.log('\n🎯 Creating missing test accounts...');
+
+    const testAccounts = [
+      {
+        firstName: 'Test',
+        lastName: 'NonSubscriber', 
+        email: 'testnonsubscriber@gmail.com',
+        password: 'password123',
+        userType: 'non-subscriber',
+        isActive: true
+      },
+      {
+        firstName: 'Test',
+        lastName: 'Subscriber',
+        email: 'testsubscriber@gmail.com', 
+        password: 'password123',
+        userType: 'subscriber',
+        isActive: true
+      },
+      {
+        firstName: 'Admin',
+        lastName: 'User',
+        username: 'admin',
+        password: 'admin',
+        userType: 'admin',
+        isActive: true
+      }
+    ];
+
+    for (const accountData of testAccounts) {
+      let existingUser;
+      if (accountData.email) {
+        existingUser = await User.findOne({ email: accountData.email });
+      } else if (accountData.username) {
+        existingUser = await User.findOne({ username: accountData.username });
+      }
+
+      if (!existingUser) {
+        const newUser = new User(accountData);
+        await newUser.save();
+        console.log(`✅ Created ${accountData.userType}: ${accountData.email || accountData.username}`);
+      }
+    }
+
+    console.log('\n🏁 Debug complete!');
+    process.exit(0);
+
+  } catch (error) {
+    console.error('❌ Debug error:', error);
+    process.exit(1);
+  }
+};
+
+debugLogin();
