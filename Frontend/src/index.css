@@ -14,28 +14,175 @@
 
 @layer components {
   /* Visa Application Buttons - matching flight booking interface */
+  
+  /* Base button class with flexbox alignment */
+  .btn-base {
+    @apply inline-flex items-center justify-center gap-2 font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
   .btn-primary {
-    @apply bg-visa-teal-500 hover:bg-visa-teal-600 text-white font-semibold py-3 px-6 rounded-lg shadow-button hover:shadow-card-hover transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply btn-base bg-visa-teal-500 hover:bg-visa-teal-600 text-white py-3 px-6 rounded-lg shadow-button hover:shadow-card-hover;
   }
   
   .btn-secondary {
-    @apply bg-visa-orange-400 hover:bg-visa-orange-500 text-white font-semibold py-3 px-6 rounded-lg shadow-button hover:shadow-card-hover transition-all duration-200;
+    @apply btn-base bg-visa-orange-400 hover:bg-visa-orange-500 text-white py-3 px-6 rounded-lg shadow-button hover:shadow-card-hover;
   }
   
   .btn-outline {
-    @apply bg-white text-visa-teal-600 border-2 border-visa-teal-600 hover:bg-visa-teal-50 font-semibold py-2 px-4 rounded-lg transition-all duration-200;
+    @apply btn-base bg-white text-visa-teal-600 border-2 border-visa-teal-600 hover:bg-visa-teal-50 py-2 px-4 rounded-lg;
   }
   
   .btn-apply-now {
-    @apply bg-visa-orange-400 hover:bg-visa-orange-500 text-white font-bold py-3 px-8 rounded-lg shadow-button hover:shadow-card-hover transition-all duration-200 transform hover:scale-105 active:scale-95 uppercase text-sm tracking-wide;
+    @apply btn-base bg-visa-orange-400 hover:bg-visa-orange-500 text-white font-bold py-3 px-8 rounded-lg shadow-button hover:shadow-card-hover transform hover:scale-105 active:scale-95 uppercase text-sm tracking-wide;
   }
   
   .btn-book {
-    @apply bg-visa-orange-400 hover:bg-visa-orange-500 text-white font-bold py-3 px-8 rounded-lg shadow-button hover:shadow-card-hover transition-all duration-200 transform hover:scale-105 active:scale-95;
+    @apply btn-base bg-visa-orange-400 hover:bg-visa-orange-500 text-white font-bold py-3 px-8 rounded-lg shadow-button hover:shadow-card-hover transform hover:scale-105 active:scale-95;
   }
   
-  .input-field {
-    @apply w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-visa-teal-500 focus:border-visa-teal-500 transition-colors duration-200 text-gray-900 placeholder-gray-500 bg-white;
+  /* Floating Label Components */
+  .input-group {
+    @apply relative mb-6;
+  }
+  
+  .input-floating {
+    @apply w-full px-3 pt-6 pb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 text-gray-900 bg-white;
+  }
+  
+  .input-floating:focus {
+    @apply border-primary-500 ring-2 ring-primary-500;
+  }
+  
+  .input-floating.has-value {
+    @apply pt-6 pb-2;
+  }
+  
+  .label-floating {
+    @apply absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 transition-all duration-200 pointer-events-none bg-white px-1;
+  }
+  
+  .label-floating.active {
+    @apply top-0 left-2 text-xs text-primary-600 font-medium;
+  }
+  
+  .label-floating.focused {
+    @apply text-primary-600;
+  }
+  
+  /* Select specific floating labels */
+  .select-floating {
+    @apply w-full px-3 pt-6 pb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 text-gray-900 bg-white appearance-none;
+  }
+  
+  .select-floating:focus {
+    @apply border-primary-500 ring-2 ring-primary-500;
+  }
+  
+  .select-group {
+    @apply relative mb-6;
+  }
+  
+  .select-group::after {
+    content: '';
+    @apply absolute right-3 top-1/2 transform -translate-y-1/2 w-0 h-0 pointer-events-none;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #6b7280;
+  }
+  
+  /* Date input specific */
+  .date-floating {
+    @apply w-full px-3 pt-6 pb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 text-gray-900 bg-white;
+  }
+  
+  .date-floating:focus {
+    @apply border-primary-500 ring-2 ring-primary-500;
+  }
+  
+  /* Hide default date placeholder */
+  .date-floating::-webkit-datetime-edit {
+    color: transparent;
+  }
+  
+  .date-floating:focus::-webkit-datetime-edit {
+    color: #111827;
+  }
+  
+  .date-floating.has-value::-webkit-datetime-edit {
+    color: #111827;
+  }
+  
+  .date-floating::-webkit-datetime-edit-text {
+    color: transparent;
+  }
+  
+  .date-floating:focus::-webkit-datetime-edit-text {
+    color: #111827;
+  }
+  
+  .date-floating.has-value::-webkit-datetime-edit-text {
+    color: #111827;
+  }
+  
+  .date-floating::-webkit-datetime-edit-fields-wrapper {
+    color: transparent;
+  }
+  
+  .date-floating:focus::-webkit-datetime-edit-fields-wrapper {
+    color: #111827;
+  }
+  
+  .date-floating.has-value::-webkit-datetime-edit-fields-wrapper {
+    color: #111827;
+  }
+  
+  /* For browsers that support it, hide the placeholder completely */
+  .date-floating:not(.has-value):not(:focus) {
+    color: transparent;
+  }
+  
+  .date-floating:not(.has-value):not(:focus)::-webkit-input-placeholder {
+    color: transparent;
+  }
+  
+  .date-floating:not(.has-value):not(:focus)::-moz-placeholder {
+    color: transparent;
+  }
+  
+  .date-floating:not(.has-value):not(:focus):-ms-input-placeholder {
+    color: transparent;
+  }
+  
+  /* Textarea floating */
+  .textarea-floating {
+    @apply w-full px-3 pt-6 pb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-all duration-200 text-gray-900 bg-white resize-none;
+  }
+  
+  .textarea-floating:focus {
+    @apply border-primary-500 ring-2 ring-primary-500;
+  }
+  
+  /* Icon sizing classes for consistent button icons */
+  .btn-icon {
+    @apply w-5 h-5 flex-shrink-0;
+  }
+  
+  .btn-icon-sm {
+    @apply w-4 h-4 flex-shrink-0;
+  }
+  
+  .btn-icon-lg {
+    @apply w-6 h-6 flex-shrink-0;
+  }
+  
+  /* Menu items with perfect alignment */
+  .menu-item {
+    @apply inline-flex items-center gap-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200;
+  }
+  
+  /* Navigation buttons with icon alignment */
+  .nav-button {
+    @apply inline-flex items-center gap-2 px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200;
   }
   
   /* Visa Card Components - matching flight booking style */
@@ -384,6 +531,11 @@
   100% { transform: translateX(0); opacity: 1; }
 }
 
+@keyframes slideUp {
+  0% { transform: translateY(10px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
 .float-animation {
   animation: float 6s ease-in-out infinite;
 }
@@ -394,6 +546,10 @@
 
 .slide-in-right {
   animation: slideInFromRight 0.3s ease-out;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.2s ease-out;
 }
 
 /* Modal backdrop */

@@ -7,10 +7,10 @@ const Footer = () => {
 
   return (
     <footer className="bg-gray-900 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
           {/* Company Info */}
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4 col-span-2 sm:col-span-1">
             <div className="flex items-center">
               <div className="w-8 h-8 bg-gradient-to-r from-primary-600 to-secondary-600 rounded-lg flex items-center justify-center mr-3">
                 <FileText className="w-5 h-5 text-white" />
@@ -31,9 +31,9 @@ const Footer = () => {
           </div>
 
           {/* Services */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Lorem Ipsum</h3>
-            <ul className="space-y-2 text-sm">
+          <div className="space-y-3 sm:space-y-4">
+            <h3 className="text-base sm:text-lg font-semibold">Lorem Ipsum</h3>
+            <ul className="space-y-1 sm:space-y-2 text-xs sm:text-sm">
               <li>
                 <Link to="/visa-information" className="text-gray-400 hover:text-white transition-colors duration-200">
                   Lorem Ipsum
@@ -68,9 +68,9 @@ const Footer = () => {
           </div>
 
           {/* Support */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Support</h3>
-            <ul className="space-y-2 text-sm">
+          <div className="space-y-3 sm:space-y-4">
+            <h3 className="text-base sm:text-lg font-semibold">Support</h3>
+            <ul className="space-y-1 sm:space-y-2 text-xs sm:text-sm">
               <li>
                 <Link to="/" className="text-gray-400 hover:text-white transition-colors duration-200">
                   Help Center
@@ -105,9 +105,9 @@ const Footer = () => {
           </div>
 
           {/* Contact Info */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Contact</h3>
-            <div className="space-y-3 text-sm">
+          <div className="space-y-3 sm:space-y-4">
+            <h3 className="text-base sm:text-lg font-semibold">Contact</h3>
+            <div className="space-y-2 sm:space-y-3 text-xs sm:text-sm">
               <div className="flex items-start space-x-3">
                 <MapPin className="w-4 h-4 text-primary-500 mt-0.5 flex-shrink-0" />
                 <div className="text-gray-400">
@@ -137,12 +137,12 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-gray-800 pt-8 mt-12">
-          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="text-sm text-gray-400">
+        <div className="border-t border-gray-800 pt-6 sm:pt-8 mt-8 sm:mt-12">
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-3 md:space-y-0">
+            <div className="text-xs sm:text-sm text-gray-400">
               © {currentYear} ADOBOVISA. All rights reserved.
             </div>
-            <div className="flex items-center space-x-6 text-sm text-gray-400">
+            <div className="flex items-center space-x-4 sm:space-x-6 text-xs sm:text-sm text-gray-400">
               <Link to="/" className="hover:text-white transition-colors duration-200">
                 Privacy Policy
               </Link>

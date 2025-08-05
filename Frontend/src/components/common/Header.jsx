@@ -86,28 +86,28 @@ const Header = () => {
                       </div>
                       <Link
                         to="/dashboard"
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+                        className="menu-item"
                         onClick={() => setIsUserMenuOpen(false)}
                       >
-                        <User className="w-4 h-4 inline mr-2" />
-                        Dashboard
+                        <User className="btn-icon-sm" />
+                        <span>Dashboard</span>
                       </Link>
                       {user?.userType === 'admin' && (
                         <Link
                           to="/admin"
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+                          className="menu-item"
                           onClick={() => setIsUserMenuOpen(false)}
                         >
-                          <Shield className="w-4 h-4 inline mr-2" />
-                          Admin Panel
+                          <Shield className="btn-icon-sm" />
+                          <span>Admin Panel</span>
                         </Link>
                       )}
                       <button
                         onClick={handleLogout}
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200"
+                        className="menu-item w-full"
                       >
-                        <LogOut className="w-4 h-4 inline mr-2" />
-                        Sign out
+                        <LogOut className="btn-icon-sm" />
+                        <span>Sign out</span>
                       </button>
                     </div>
                   )}
@@ -179,11 +179,11 @@ const Header = () => {
                       </div>
                       <Link
                         to="/dashboard"
-                        className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors duration-200"
+                        className="nav-button block text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md"
                         onClick={() => setIsMenuOpen(false)}
                       >
-                        <User className="w-5 h-5 inline mr-2" />
-                        Dashboard
+                        <User className="btn-icon" />
+                        <span>Dashboard</span>
                       </Link>
                       {user?.userType === 'admin' && (
                         <Link
@@ -196,11 +196,11 @@ const Header = () => {
                         </Link>
                       )}
                       <button
-                        onClick={handleLogout}
-                        className="block w-full text-left px-3 py-2 text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors duration-200"
+                      onClick={handleLogout}
+                      className="nav-button block w-full text-left text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md"
                       >
-                        <LogOut className="w-5 h-5 inline mr-2" />
-                        Sign out
+                      <LogOut className="btn-icon" />
+                      <span>Sign out</span>
                       </button>
                     </div>
                   ) : (
