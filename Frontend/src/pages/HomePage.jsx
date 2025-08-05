@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Search, Globe, Clock, Shield, CheckCircle, ArrowRight, Users, Award, Zap } from 'lucide-react'
 import { COUNTRIES, PURPOSE_OF_VISIT } from '../utils/constants'
+import FloatingInput from '../components/common/FloatingInput'
 import AuthModal from '../components/auth/AuthModal'
 
 const HomePage = () => {
@@ -28,9 +29,9 @@ const HomePage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    // Store form data and navigate to visa information page
+    // Store form data and navigate directly to application process
     sessionStorage.setItem('visaSearchData', JSON.stringify(formData))
-    navigate('/visa-information')
+    navigate('/application')
   }
 
   const handleInputChange = (e) => {
@@ -96,100 +97,60 @@ const HomePage = () => {
                   </p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   {/* Passport Country */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      My passport is from
-                    </label>
-                    <select
-                      name="passportCountry"
-                      value={formData.passportCountry}
-                      onChange={handleInputChange}
-                      className="input-field text-base"
-                      required
-                    >
-                      <option value="">Select your country</option>
-                      {COUNTRIES.map(country => (
-                        <option key={country.code} value={country.code}>
-                          {country.flag} {country.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                  <FloatingInput
+                    type="select"
+                    name="passportCountry"
+                    label="My passport is from"
+                    options={COUNTRIES}
+                    value={formData.passportCountry}
+                    onChange={handleInputChange}
+                    required
+                  />
 
                   {/* Destination */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      I am going to
-                    </label>
-                    <select
-                      name="destination"
-                      value={formData.destination}
-                      onChange={handleInputChange}
-                      className="input-field text-base"
-                      required
-                    >
-                      <option value="">Select destination</option>
-                      {COUNTRIES.map(country => (
-                        <option key={country.code} value={country.code}>
-                          {country.flag} {country.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                  <FloatingInput
+                    type="select"
+                    name="destination"
+                    label="I am going to"
+                    options={COUNTRIES}
+                    value={formData.destination}
+                    onChange={handleInputChange}
+                    required
+                  />
 
                   {/* Purpose */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      My purpose of trip
-                    </label>
-                    <select
-                      name="purpose"
-                      value={formData.purpose}
-                      onChange={handleInputChange}
-                      className="input-field text-base"
-                      required
-                    >
-                      <option value="">Select purpose</option>
-                      {PURPOSE_OF_VISIT.map(purpose => (
-                        <option key={purpose.value} value={purpose.value}>
-                          {purpose.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+                  <FloatingInput
+                    type="select"
+                    name="purpose"
+                    label="My purpose of trip"
+                    options={PURPOSE_OF_VISIT}
+                    value={formData.purpose}
+                    onChange={handleInputChange}
+                    required
+                  />
 
                   {/* Dates - Mobile stacked */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Entry Date
-                      </label>
-                      <input
-                        type="date"
-                        name="entryDate"
-                        value={formData.entryDate}
-                        onChange={handleInputChange}
-                        className="input-field text-base"
-                        min={new Date().toISOString().split('T')[0]}
-                        required
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Exit Date
-                      </label>
-                      <input
-                        type="date"
-                        name="exitDate"
-                        value={formData.exitDate}
-                        onChange={handleInputChange}
-                        className="input-field text-base"
-                        min={formData.entryDate || new Date().toISOString().split('T')[0]}
-                        required
-                      />
-                    </div>
+                    <FloatingInput
+                      type="date"
+                      name="entryDate"
+                      label="Entry Date"
+                      value={formData.entryDate}
+                      onChange={handleInputChange}
+                      min={new Date().toISOString().split('T')[0]}
+                      required
+                    />
+                    <FloatingInput
+                      type="date"
+                      name="exitDate"
+                      label="Exit Date"
+                      value={formData.exitDate}
+                      onChange={handleInputChange}
+                      min={formData.entryDate || new Date().toISOString().split('T')[0]}
+                      required
+                    />
                   </div>
 
                   {/* Submit Button - Mobile optimized */}

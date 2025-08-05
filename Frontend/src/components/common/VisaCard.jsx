@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Clock, Users, Star, AlertCircle } from 'lucide-react';
+import { MapPin, Clock, Users, Star, AlertCircle, Eye, ArrowRight, CreditCard } from 'lucide-react';
 
 const VisaCard = ({ 
   country, 
@@ -35,11 +35,11 @@ const VisaCard = ({
             <p className="visa-type">{visaType}</p>
             <div className="flex items-center gap-4 mt-2">
               <div className="flex items-center gap-1">
-                <Clock className="w-4 h-4 text-gray-500" />
+                <Clock className="btn-icon-sm text-gray-500" />
                 <span className="processing-time">{processingTime}</span>
               </div>
               <div className="flex items-center gap-1">
-                <Users className="w-4 h-4 text-gray-500" />
+                <Users className="btn-icon-sm text-gray-500" />
                 <span className="processing-time">{entries}</span>
               </div>
             </div>
@@ -55,21 +55,24 @@ const VisaCard = ({
         <div className="flex flex-wrap gap-2 mb-4">
           <span className="badge-teal">Valid {validity}</span>
           {urgentAvailable && (
-            <span className="visa-urgent">
-              <AlertCircle className="w-3 h-3 mr-1" />
-              Urgent Available
+            <span className="visa-urgent inline-flex items-center gap-1">
+              <AlertCircle className="w-3 h-3" />
+              <span>Urgent Available</span>
             </span>
           )}
           <span className="visa-tag">{requirements} Documents</span>
         </div>
 
-        {/* Action Buttons */}
+        {/* Action Buttons with Perfect Icon Alignment */}
         <div className="flex gap-3">
           <button className="btn-outline flex-1">
-            View Details
+            <Eye className="btn-icon-sm" />
+            <span>View Details</span>
           </button>
-          <button className="btn-apply-now">
-            Apply Now
+          <button className="btn-apply-now group">
+            <CreditCard className="btn-icon-sm" />
+            <span>Apply Now</span>
+            <ArrowRight className="btn-icon-sm group-hover:translate-x-1 transition-transform duration-200" />
           </button>
         </div>
       </div>
