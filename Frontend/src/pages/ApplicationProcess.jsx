@@ -250,7 +250,6 @@ const ApplicationProcess = () => {
                     }`}>
                       <p className="text-sm font-medium hidden lg:block">{step.title}</p>
                       <p className="text-sm font-medium lg:hidden">{step.shortTitle}</p>
-                      <p className="text-xs hidden lg:block">{step.description}</p>
                     </div>
                   </div>
                   {index < steps.length - 1 && (
