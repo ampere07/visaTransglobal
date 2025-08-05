@@ -58,7 +58,7 @@ const ApplicationProcess = () => {
   const steps = [
     { 
       id: 0, 
-      title: 'Visa Selection', 
+      title: 'Select Your Visa', 
       description: 'Choose your visa type and travel details',
       icon: Search,
       shortTitle: 'Selection'
@@ -66,28 +66,28 @@ const ApplicationProcess = () => {
     { 
       id: 1, 
       title: 'Personal Information', 
-      description: 'Basic personal details',
+      description: 'Please provide your personal details as they appear on your passport.',
       icon: User,
       shortTitle: 'Personal'
     },
     { 
       id: 2, 
-      title: 'Documents', 
-      description: 'Download required documents',
+      title: 'Required Documents', 
+      description: 'Download the required documents and templates for your visa application.',
       icon: FileText,
       shortTitle: 'Documents'
     },
     { 
       id: 3, 
       title: 'Payment & Shipping', 
-      description: 'Payment and shipping details',
+      description: 'Choose your payment method and shipping preferences.',
       icon: CreditCard,
       shortTitle: 'Payment'
     },
     { 
       id: 4, 
       title: 'Review', 
-      description: 'Review and submit application',
+      description: 'Please review your application before submitting.',
       icon: CheckCircle,
       shortTitle: 'Review'
     }
@@ -218,14 +218,6 @@ const ApplicationProcess = () => {
                 style={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
               />
             </div>
-            <div className="mt-2">
-              <p className="text-sm font-medium text-white">
-                {steps[currentStep]?.title}
-              </p>
-              <p className="text-xs text-white opacity-90">
-                {steps[currentStep]?.description}
-              </p>
-            </div>
           </div>
         </div>
 
@@ -277,6 +269,16 @@ const ApplicationProcess = () => {
       {/* Form Section - White Background */}
       <div className="bg-white py-6 sm:py-8">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Mobile Step Header - Centered */}
+          <div className="sm:hidden text-center mb-8 pb-6 border-b border-gray-200">
+            <h1 className="text-2xl font-bold text-black mb-2">
+              {steps[currentStep]?.title}
+            </h1>
+            <p className="text-base text-black max-w-xl mx-auto">
+              {steps[currentStep]?.description}
+            </p>
+          </div>
+          
         <div className="">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="p-4 sm:p-6 lg:p-8">
@@ -482,7 +484,7 @@ const ApplicationProcess = () => {
               {currentStep === 2 && (
                 <div className="space-y-6">
                   <div className="hidden sm:block text-center">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-2">Document Downloads</h2>
+                    <h2 className="text-2xl font-bold text-gray-900 mb-2">Required Documents</h2>
                     <p className="text-gray-600 mb-6">Download the required documents and templates for your visa application.</p>
                   </div>
                   
@@ -697,7 +699,7 @@ const ApplicationProcess = () => {
 
               {currentStep === 4 && (
                 <div className="space-y-6">
-                  <div className="hidden sm:block">
+                  <div className="hidden sm:block text-center">
                     <h2 className="text-2xl font-bold text-gray-900 mb-2">Review & Submit</h2>
                     <p className="text-gray-600 mb-6">Please review your application before submitting.</p>
                   </div>

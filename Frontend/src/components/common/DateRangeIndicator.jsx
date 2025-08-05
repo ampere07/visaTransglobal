@@ -116,14 +116,6 @@ const DateRangeIndicator = ({
           </div>
         )}
         
-        {/* Additional Info */}
-        {hasRange && (
-          <div className="mt-3 p-3 rounded-lg" style={{ backgroundColor: '#207f95', opacity: 0.1 }}>
-            <p className="text-xs text-gray-600">
-              ✈️ Your travel period is confirmed from <strong>{formatDate(startDate)}</strong> to <strong>{formatDate(endDate)}</strong>
-            </p>
-          </div>
-        )}
       </div>
     </div>
   )
