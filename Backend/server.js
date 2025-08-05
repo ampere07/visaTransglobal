@@ -65,8 +65,8 @@ const createTestAccounts = async () => {
       {
         firstName: 'Admin',
         lastName: 'User',
-        username: 'admin',
-        password: 'admin',
+        username: 'admin@email.com',
+        password: 'admin123',
         userType: 'admin',
         isActive: true,
         phone: '+1234567892'

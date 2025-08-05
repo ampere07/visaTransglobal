@@ -36,7 +36,7 @@ const Header = () => {
             {/* Logo */}
             <div className="flex-shrink-0">
               <Link to="/" className="flex items-center">
-                <div className="w-8 h-8 bg-gradient-to-r from-primary-600 to-secondary-600 rounded-lg flex items-center justify-center mr-3">
+                <div className="w-8 h-8 bg-gradient-to-r from-teal-500 to-coral-400 rounded-lg flex items-center justify-center mr-3">
                   <FileText className="w-5 h-5 text-white" />
                 </div>
                 <span className="text-xl font-bold text-gradient">ADOBO VISA</span>
@@ -51,8 +51,8 @@ const Header = () => {
                   to={item.href}
                   className={`px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200 ${
                     item.current
-                      ? 'text-primary-600 bg-primary-50'
-                      : 'text-gray-700 hover:text-primary-600 hover:bg-gray-50'
+                      ? 'text-teal-600 bg-teal-50'
+                      : 'text-gray-700 hover:text-teal-600 hover:bg-gray-50'
                   }`}
                 >
                   {item.name}
@@ -66,7 +66,7 @@ const Header = () => {
                 <div className="relative">
                   <button
                     onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                    className="flex items-center space-x-2 text-gray-700 hover:text-primary-600 px-3 py-2 rounded-md transition-colors duration-200"
+                    className="flex items-center space-x-2 text-gray-700 hover:text-teal-600 px-3 py-2 rounded-md transition-colors duration-200"
                   >
                     <User className="w-5 h-5" />
                     <span className="text-sm font-medium">
@@ -119,7 +119,7 @@ const Header = () => {
                       setAuthMode('login')
                       setIsAuthModalOpen(true)
                     }}
-                    className="text-gray-700 hover:text-primary-600 px-3 py-2 text-sm font-medium transition-colors duration-200"
+                    className="text-gray-700 hover:text-teal-600 px-3 py-2 text-sm font-medium transition-colors duration-200"
                   >
                     Sign in
                   </button>
