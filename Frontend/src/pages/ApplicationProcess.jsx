@@ -294,40 +294,45 @@ const ApplicationProcess = () => {
     <>
     <div className="min-h-screen">
       {/* Step Indicators Section - Blue Background */}
-      <div className="py-2 sm:py-8 bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-800">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="py-3 sm:py-6 md:py-8 lg:py-10 bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-800">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8 xl:px-10">
         {/* Mobile Progress Header */}
-        <div className="sm:hidden mb-2">
-          <div className="p-3">
-            <div className="flex items-center justify-between mb-2">
-              <h1 className="text-lg font-semibold text-white">
+        <div className="sm:hidden mb-4">
+          <div className="px-3 py-4">
+            <div className="flex items-center justify-between mb-3">
+              <h1 className="text-base sm:text-lg font-semibold text-white truncate">
                 Visa Application
               </h1>
-              <span className="text-sm text-white">
+              <span className="text-sm text-white flex-shrink-0">
                 Step {currentStep + 1} of {steps.length}
               </span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-2">
+            <div className="w-full bg-white/20 rounded-full h-2 mb-3">
               <div 
-                className="bg-primary-600 h-2 rounded-full transition-all duration-300"
+                className="bg-white h-2 rounded-full transition-all duration-300"
                 style={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
               />
+            </div>
+            <div className="text-center">
+              <p className="text-white text-sm font-medium">{steps[currentStep]?.title}</p>
+              <p className="text-white/80 text-xs mt-1">{steps[currentStep]?.description}</p>
             </div>
           </div>
         </div>
 
         {/* Desktop Progress Steps */}
         <div className="hidden sm:block mb-8">
-          <div className="flex items-center justify-between">
+          <div className="flex justify-center w-full px-2">
+            <div className="flex items-center justify-between w-full max-w-5xl">
             {steps.map((step, index) => {
               const Icon = step.icon
               const isCompleted = currentStep > step.id
               const isCurrent = currentStep === step.id
               
               return (
-                <div key={step.id} className="flex items-center">
-                  <div className="flex flex-col items-center w-24">
-                    <div className={`relative inline-flex items-center justify-center w-12 h-12 rounded-full border-2 transition-all duration-500 ${
+                <React.Fragment key={step.id}>
+                  <div className="flex flex-col items-center flex-1 min-w-0">
+                    <div className={`relative inline-flex items-center justify-center w-8 sm:w-10 md:w-12 lg:w-14 h-8 sm:h-10 md:h-12 lg:h-14 rounded-full border-2 transition-all duration-500 ${
                       isCompleted
                         ? 'border-green-400 text-white shadow-lg shadow-green-500/30' 
                         : isCurrent
@@ -336,12 +341,12 @@ const ApplicationProcess = () => {
                     }`} style={{backgroundColor: '#5DADE2'}}>
                       {isCompleted ? (
                         <div className="relative">
-                          <CheckCircle className="w-6 h-6 flex-shrink-0" />
+                          <CheckCircle className="w-4 sm:w-5 md:w-6 lg:w-7 h-4 sm:h-5 md:h-6 lg:h-7 flex-shrink-0" />
                           {/* Success ripple effect */}
-                          <div className="absolute inset-0 w-6 h-6 rounded-full border-2 border-green-400/60 animate-ping opacity-40"></div>
+                          <div className="absolute inset-0 w-4 sm:w-5 md:w-6 lg:w-7 h-4 sm:h-5 md:h-6 lg:h-7 rounded-full border-2 border-green-400/60 animate-ping opacity-40"></div>
                         </div>
                       ) : (
-                        <Icon className={`w-5 h-5 flex-shrink-0 transition-all duration-300 ${
+                        <Icon className={`w-3 sm:w-4 md:w-5 lg:w-6 h-3 sm:h-4 md:h-5 lg:h-6 flex-shrink-0 transition-all duration-300 ${
                           isCurrent ? 'transform scale-110' : ''
                         }`} />
                       )}
@@ -349,26 +354,26 @@ const ApplicationProcess = () => {
                       {/* Completion celebration sparkle */}
                       {isCompleted && (
                         <>
-                          <div className="absolute -top-1 -right-1 w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-lg"></div>
-                          <div className="absolute -bottom-1 -left-1 w-1.5 h-1.5 bg-green-300 rounded-full animate-pulse" style={{animationDelay: '300ms'}}></div>
+                          <div className="absolute -top-0.5 sm:-top-1 -right-0.5 sm:-right-1 w-1 sm:w-1.5 md:w-2 h-1 sm:h-1.5 md:h-2 bg-green-400 rounded-full animate-pulse shadow-lg"></div>
+                          <div className="absolute -bottom-0.5 sm:-bottom-1 -left-0.5 sm:-left-1 w-0.5 sm:w-1 md:w-1.5 h-0.5 sm:h-1 md:h-1.5 bg-green-300 rounded-full animate-pulse" style={{animationDelay: '300ms'}}></div>
                         </>
                       )}
                     </div>
                     
-                    <div className={`mt-3 text-center w-full transition-all duration-300 ${
+                    <div className={`mt-1 sm:mt-2 md:mt-3 text-center w-full transition-all duration-300 ${
                       isCurrent 
                         ? 'text-white font-semibold drop-shadow-sm' 
                         : isCompleted 
                         ? 'text-green-100 font-semibold drop-shadow-sm' 
                         : 'text-white/90 font-medium'
                     }`}>
-                      <p className="text-sm font-medium hidden lg:block leading-tight">{step.title}</p>
-                      <p className="text-sm font-medium lg:hidden leading-tight">{step.shortTitle}</p>
+                      <p className="text-xs sm:text-sm md:text-base font-medium hidden lg:block leading-tight px-1">{step.title}</p>
+                      <p className="text-xs sm:text-sm font-medium lg:hidden leading-tight px-1">{step.shortTitle}</p>
                     </div>
                   </div>
                   
                   {index < steps.length - 1 && (
-                    <div className="relative mx-4 lg:mx-6 w-16 lg:w-24 h-1 rounded-full overflow-hidden bg-blue-200/30">
+                    <div className="relative flex-shrink-0 w-4 sm:w-8 md:w-12 lg:w-16 xl:w-20 h-0.5 sm:h-1 rounded-full overflow-hidden bg-blue-200/30 mx-1 sm:mx-2">
                       <div className={`absolute left-0 top-0 h-full rounded-full transition-all duration-700 ease-out ${
                         currentStep > step.id 
                           ? 'w-full bg-gradient-to-r from-green-400 to-green-600 shadow-sm' 
@@ -381,38 +386,39 @@ const ApplicationProcess = () => {
                       )}
                     </div>
                   )}
-                </div>
+                </React.Fragment>
               )
             })}
+            </div>
           </div>
         </div>
       </div>
       </div>
 
       {/* Form Section - White Background */}
-      <div className="bg-white py-6 sm:py-8">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="bg-white py-4 sm:py-6 lg:py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Mobile Step Header - Centered */}
-          <div className="sm:hidden text-center mb-8 pb-6 border-b border-gray-200">
-            <h1 className="text-2xl font-bold text-black mb-2">
+          <div className="sm:hidden text-center mb-6 pb-4 border-b border-gray-200">
+            <h1 className="text-xl sm:text-2xl font-bold text-black mb-2 px-2">
               {steps[currentStep]?.title}
             </h1>
-            <p className="text-base text-black max-w-xl mx-auto">
+            <p className="text-sm sm:text-base text-gray-600 max-w-xl mx-auto px-4">
               {steps[currentStep]?.description}
             </p>
           </div>
           
         <div className="">
           <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="p-4 sm:p-6 lg:p-8">
+            <div className="p-3 sm:p-4 lg:p-6 xl:p-8">
               {currentStep === 0 && (
-                <div className="space-y-6 max-w-2xl mx-auto">
+                <div className="space-y-4 sm:space-y-6 max-w-3xl mx-auto">
                   <div className="hidden sm:block text-center">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-2">Select Your Visa</h2>
-                    <p className="text-gray-600 mb-6">Find the perfect visa solution for your travel needs.</p>
+                    <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Select Your Visa</h2>
+                    <p className="text-sm sm:text-base text-gray-600 mb-6">Find the perfect visa solution for your travel needs.</p>
                   </div>
                   
-                  <div className="grid grid-cols-1 gap-4 sm:gap-6">
+                  <div className="grid grid-cols-1 gap-3 sm:gap-4 lg:gap-6">
                     {/* Passport Country */}
                     <FloatingInput
                       type="select"
@@ -544,25 +550,25 @@ const ApplicationProcess = () => {
               )}
 
               {currentStep === 1 && (
-                <div className="space-y-6 max-w-2xl mx-auto">
+                <div className="space-y-4 sm:space-y-6 max-w-4xl mx-auto">
                   <div className="hidden sm:block text-center">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-2">Personal Information</h2>
-                    <p className="text-gray-600 mb-6">Please provide your personal details as they appear on your passport.</p>
+                    <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Personal Information</h2>
+                    <p className="text-sm sm:text-base text-gray-600 mb-6">Please provide your personal details as they appear on your passport.</p>
                   </div>
                   
                   {/* Visa Selection Summary */}
-                  <div className="bg-gray-50 rounded-lg p-4 mb-6">
+                  <div className="bg-gray-50 rounded-lg p-3 sm:p-4 mb-4 sm:mb-6">
                     <h3 className="text-sm font-medium text-gray-900 mb-2">Your Visa Selection</h3>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm text-gray-600">
-                      <div>Passport: <span className="font-medium">{watch('passportCountry') ? COUNTRIES.find(c => c.code === watch('passportCountry'))?.name : 'Not selected'}</span></div>
-                      <div>Destination: <span className="font-medium">{watch('destinationVisa') ? COUNTRIES.find(c => c.code === watch('destinationVisa'))?.name : 'Not selected'}</span></div>
-                      <div>Purpose: <span className="font-medium">{watch('purposeVisa') ? PURPOSE_OF_VISIT.find(p => p.value === watch('purposeVisa'))?.label : 'Not selected'}</span></div>
-                      <div>Travel Dates: <span className="font-medium">{watch('entryDateVisa')} to {watch('exitDateVisa')}</span></div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs sm:text-sm text-gray-600">
+                      <div className="truncate">Passport: <span className="font-medium">{watch('passportCountry') ? COUNTRIES.find(c => c.code === watch('passportCountry'))?.name : 'Not selected'}</span></div>
+                      <div className="truncate">Destination: <span className="font-medium">{watch('destinationVisa') ? COUNTRIES.find(c => c.code === watch('destinationVisa'))?.name : 'Not selected'}</span></div>
+                      <div className="truncate">Purpose: <span className="font-medium">{watch('purposeVisa') ? PURPOSE_OF_VISIT.find(p => p.value === watch('purposeVisa'))?.label : 'Not selected'}</span></div>
+                      <div className="truncate">Travel Dates: <span className="font-medium">{watch('entryDateVisa')} to {watch('exitDateVisa')}</span></div>
                     </div>
                   </div>
                   
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
-                    <div className="sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 lg:gap-6">
+                    <div className="sm:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                       <FloatingInput
                         type="text"
                         name="firstName"
@@ -646,14 +652,14 @@ const ApplicationProcess = () => {
               )}
 
               {currentStep === 2 && (
-                <div className="space-y-6">
+                <div className="space-y-4 sm:space-y-6">
                   <div className="hidden sm:block text-center">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-2">Required Documents</h2>
-                    <p className="text-gray-600 mb-6">Download the required documents and templates for your visa application.</p>
+                    <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Required Documents</h2>
+                    <p className="text-sm sm:text-base text-gray-600 mb-6">Download the required documents and templates for your visa application.</p>
                   </div>
                   
-                  {/* Mobile: Flex Layout, Desktop: 2x2 Grid Layout */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+                  {/* Responsive Document Grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
                     {/* Document Download Areas */}
                     {[
                       { 
@@ -695,7 +701,7 @@ const ApplicationProcess = () => {
                     ].map((doc) => {
                       const IconComponent = doc.icon
                       return (
-                      <div key={doc.id} className={`bg-gray-50 border-2 rounded-lg p-4 transition-all duration-200 group relative min-h-[280px] flex flex-col ${
+                      <div key={doc.id} className={`bg-gray-50 border-2 rounded-lg p-3 sm:p-4 transition-all duration-200 group relative min-h-[240px] sm:min-h-[280px] flex flex-col ${
                         isDownloadEnabled() 
                           ? 'border-gray-200 hover:border-primary-300 hover:bg-primary-50/30' 
                           : 'border-gray-200 opacity-75'
@@ -708,33 +714,33 @@ const ApplicationProcess = () => {
                           </div>
                         )}
                         <div className="text-center flex-1 flex flex-col">
-                          <div className="mb-4 flex justify-center">
-                            <div className={`p-3 rounded-full bg-gray-100 group-hover:bg-white transition-colors duration-200 ${
+                          <div className="mb-3 sm:mb-4 flex justify-center">
+                            <div className={`p-2 sm:p-3 rounded-full bg-gray-100 group-hover:bg-white transition-colors duration-200 ${
                               isDownloadEnabled() ? 'group-hover:shadow-md' : ''
                             }`}>
-                              <IconComponent className={`w-8 h-8 ${doc.iconColor} transition-colors duration-200`} />
+                              <IconComponent className={`w-6 h-6 sm:w-8 sm:h-8 ${doc.iconColor} transition-colors duration-200`} />
                             </div>
                           </div>
-                          <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-2 group-hover:text-primary-700 transition-colors duration-200">
+                          <h3 className="text-sm sm:text-base font-semibold text-gray-900 mb-2 group-hover:text-primary-700 transition-colors duration-200 px-1">
                             {doc.name}
                           </h3>
-                          <p className="text-xs sm:text-sm text-gray-600 mb-3 flex-1">
+                          <p className="text-xs sm:text-sm text-gray-600 mb-3 flex-1 px-1">
                             {doc.description}
                           </p>
-                          <div className="flex items-center justify-center space-x-2 mb-4">
+                          <div className="flex items-center justify-center space-x-2 mb-3 sm:mb-4">
                             <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-200 text-gray-800">
                               {doc.fileType}
                             </span>
                             <span className="text-xs text-gray-500">{doc.fileSize}</span>
                           </div>
-                          <div className="mt-auto">
+                          <div className="mt-auto px-1">
                             <button
                               type="button"
-                              className={getDownloadButtonStyle()}
+                              className={`${getDownloadButtonStyle()} text-xs sm:text-sm py-2 sm:py-2`}
                               disabled={!isDownloadEnabled()}
                               onClick={() => handleDownloadClick(`${doc.id}.pdf`, doc.name)}
                             >
-                              <Download className="w-4 h-4 mr-2" />
+                              <Download className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
                               Download
                               {!isDownloadEnabled() && (
                                 <Lock className="w-3 h-3 ml-1" />
@@ -806,52 +812,52 @@ const ApplicationProcess = () => {
               )}
 
               {currentStep === 3 && (
-                <div className="space-y-6">
-                  <div className="hidden sm:block">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-2">Payment & Shipping</h2>
-                    <p className="text-gray-600 mb-6">Choose your payment method and shipping preferences.</p>
+                <div className="space-y-4 sm:space-y-6">
+                  <div className="hidden sm:block text-center">
+                    <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Payment & Shipping</h2>
+                    <p className="text-sm sm:text-base text-gray-600 mb-6">Choose your payment method and shipping preferences.</p>
                   </div>
                   
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <div className="space-y-4">
-                      <h3 className="text-lg font-semibold text-gray-900">Payment Information</h3>
-                      <div className="bg-gray-50 rounded-lg p-4">
+                  <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
+                    <div className="space-y-3 sm:space-y-4">
+                      <h3 className="text-base sm:text-lg font-semibold text-gray-900">Payment Information</h3>
+                      <div className="bg-gray-50 rounded-lg p-3 sm:p-4">
                         <div className="flex justify-between text-sm mb-2">
                           <span>Consulate Fee:</span>
-                          <span>$160.00</span>
+                          <span className="font-medium">$160.00</span>
                         </div>
                         <div className="flex justify-between text-sm mb-2">
                           <span>Service Fee:</span>
-                          <span>$50.00</span>
+                          <span className="font-medium">$50.00</span>
                         </div>
-                        <div className="flex justify-between font-semibold text-base border-t pt-2">
+                        <div className="flex justify-between font-semibold text-base border-t pt-2 mt-2">
                           <span>Total:</span>
-                          <span>$210.00</span>
+                          <span className="text-blue-600">$210.00</span>
                         </div>
                       </div>
                     </div>
 
-                    <div className="space-y-4">
-                      <h3 className="text-lg font-semibold text-gray-900">Shipping Method</h3>
-                      <div className="space-y-2">
+                    <div className="space-y-3 sm:space-y-4">
+                      <h3 className="text-base sm:text-lg font-semibold text-gray-900">Shipping Method</h3>
+                      <div className="space-y-2 sm:space-y-3">
                         {[
                           { id: 'standard', name: 'Standard Shipping', price: 'Free', time: '5-7 business days' },
                           { id: 'express', name: 'Express Shipping', price: '$25', time: '2-3 business days' },
                           { id: 'pickup', name: 'Office Pickup', price: 'Free', time: 'Same day' }
                         ].map((option) => (
-                          <label key={option.id} className="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50">
+                          <label key={option.id} className="flex items-center p-3 sm:p-4 border rounded-lg cursor-pointer hover:bg-gray-50 transition-colors duration-200">
                             <input
                               type="radio"
                               {...register('shippingMethod', { required: 'Please select a shipping method' })}
                               value={option.id}
-                              className="text-primary-600 focus:ring-primary-500"
+                              className="text-blue-600 focus:ring-blue-500 flex-shrink-0"
                             />
-                            <div className="ml-3 flex-1">
-                              <div className="grid grid-cols-2 gap-3 sm:flex sm:justify-between">
-                                <span className="font-medium text-gray-900">{option.name}</span>
-                                <span className="text-gray-900">{option.price}</span>
+                            <div className="ml-3 flex-1 min-w-0">
+                              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-3">
+                                <span className="font-medium text-gray-900 text-sm sm:text-base">{option.name}</span>
+                                <span className="text-gray-900 font-semibold text-sm sm:text-base">{option.price}</span>
                               </div>
-                              <p className="text-sm text-gray-500">{option.time}</p>
+                              <p className="text-xs sm:text-sm text-gray-500 mt-1">{option.time}</p>
                             </div>
                           </label>
                         ))}
@@ -862,19 +868,19 @@ const ApplicationProcess = () => {
               )}
 
               {currentStep === 4 && (
-                <div className="space-y-6">
+                <div className="space-y-4 sm:space-y-6">
                   <div className="hidden sm:block text-center">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-2">Review & Submit</h2>
-                    <p className="text-gray-600 mb-6">Please review your application before submitting.</p>
+                    <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2">Review & Submit</h2>
+                    <p className="text-sm sm:text-base text-gray-600 mb-6">Please review your application before submitting.</p>
                   </div>
                   
-                  <div className="space-y-6">
-                    <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
-                      <div className="flex">
+                  <div className="space-y-4 sm:space-y-6">
+                    <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 sm:p-4">
+                      <div className="flex items-start gap-3">
                         <div className="flex-shrink-0">
                           <CheckCircle className="h-5 w-5 text-amber-400" />
                         </div>
-                        <div className="ml-3">
+                        <div className="min-w-0">
                           <h3 className="text-sm font-medium text-amber-800">
                             Ready to Submit
                           </h3>
@@ -885,12 +891,12 @@ const ApplicationProcess = () => {
                       </div>
                     </div>
 
-                    <div className="text-center py-8">
-                      <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-                      <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                    <div className="text-center py-6 sm:py-8">
+                      <CheckCircle className="w-12 h-12 sm:w-16 sm:h-16 text-green-500 mx-auto mb-4" />
+                      <h3 className="text-lg sm:text-xl font-semibold text-gray-900 mb-2">
                         Application Review Complete
                       </h3>
-                      <p className="text-gray-600">
+                      <p className="text-sm sm:text-base text-gray-600 max-w-md mx-auto">
                         Your application is ready for submission. Click submit to proceed.
                       </p>
                     </div>
@@ -900,17 +906,17 @@ const ApplicationProcess = () => {
             </div>
 
             {/* Navigation Buttons */}
-            <div className="border-t border-gray-200 px-4 py-3 sm:px-6 sm:py-4 lg:px-8">
-              <div className="grid grid-cols-2 gap-3 sm:flex sm:justify-between">
+            <div className="border-t border-gray-200 px-3 py-3 sm:px-4 sm:py-4 lg:px-6 lg:py-4">
+              <div className="flex flex-col sm:flex-row gap-3 sm:justify-between max-w-2xl mx-auto">
                 <button
                   type="button"
                   onClick={prevStep}
                   disabled={currentStep === 0}
-                  className={`btn-base px-4 py-2 text-sm font-medium rounded-lg ${
+                  className={`btn-base px-4 py-3 sm:py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
                     currentStep === 0
                       ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                      : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
-                  }`}
+                      : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 hover:shadow-sm'
+                  } order-2 sm:order-1`}
                 >
                   <ChevronLeft className="w-4 h-4" />
                   <span className="hidden sm:inline">Previous</span>
@@ -921,7 +927,7 @@ const ApplicationProcess = () => {
                   <button
                     type="button"
                     onClick={nextStep}
-                    className="btn-base px-4 py-2 bg-primary-600 text-white text-sm font-medium rounded-lg hover:bg-primary-700"
+                    className="btn-base px-4 py-3 sm:py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-all duration-200 hover:shadow-md order-1 sm:order-2"
                   >
                     <span className="hidden sm:inline">Next Step</span>
                     <span className="sm:hidden">Next</span>
@@ -931,7 +937,7 @@ const ApplicationProcess = () => {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="btn-base px-6 py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="btn-base px-6 py-3 sm:py-2 bg-green-600 text-white text-sm font-medium rounded-lg hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 hover:shadow-md order-1 sm:order-2"
                   >
                     {isSubmitting ? (
                       <>
