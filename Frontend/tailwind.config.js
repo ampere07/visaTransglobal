@@ -7,67 +7,155 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Primary theme colors matching the flight booking interface
+        // Custom Color Palette - User Specified
+        'custom': {
+          'light-purple': '#98befc',    // Light blue/purple for info backgrounds
+          'mint': '#c5f5dd',           // Light green/mint for success states
+          'sky': '#90d9fd',            // Light blue for primary backgrounds
+          'royal': '#0438ee',          // Dark blue for text and strong elements
+          'ocean': '#09a2e3',          // Medium blue for buttons and accents
+          'turquoise': '#4ad3f1',      // Cyan/turquoise for secondary elements
+          'cyan': '#7de3fe',           // Light cyan for highlights and hover
+        },
+        
+        // Updated primary theme colors using custom palette
         primary: {
-          50: '#f0fdfa',
-          100: '#ccfbf1', 
-          200: '#99f6e4',
-          300: '#5eead4',
-          400: '#2dd4bf',
-          500: '#14b8a6', // Main teal - matches interface header
-          600: '#0d9488',
-          700: '#0f766e', 
-          800: '#115e59',
-          900: '#134e4a',
+          50: '#7de3fe',   // Light cyan for very light backgrounds
+          100: '#4ad3f1',  // Turquoise for light backgrounds
+          200: '#90d9fd',  // Sky for lighter elements
+          300: '#09a2e3',  // Ocean for medium elements
+          400: '#09a2e3',  // Ocean for interactive elements
+          500: '#0438ee',  // Royal for primary buttons and main elements
+          600: '#0438ee',  // Royal for hover states
+          700: '#0438ee',  // Royal for pressed states
+          800: '#0438ee',  // Royal for dark elements
+          900: '#0438ee',  // Royal for very dark elements
         },
         secondary: {
-          50: '#fff7ed',
-          100: '#ffedd5',
-          200: '#fed7aa',
-          300: '#fdba74',
-          400: '#fb923c', // Main orange - matches interface buttons
-          500: '#f97316',
-          600: '#ea580c',
-          700: '#c2410c',
-          800: '#9a3412',
-          900: '#7c2d12',
+          50: '#c5f5dd',   // Mint for very light backgrounds
+          100: '#c5f5dd',  // Mint for light backgrounds
+          200: '#c5f5dd',  // Mint for lighter elements
+          300: '#4ad3f1',  // Turquoise for medium elements
+          400: '#4ad3f1',  // Turquoise for interactive elements
+          500: '#09a2e3',  // Ocean for secondary buttons
+          600: '#09a2e3',  // Ocean for hover states
+          700: '#0438ee',  // Royal for pressed states
+          800: '#0438ee',  // Royal for dark elements
+          900: '#0438ee',  // Royal for very dark elements
         },
         accent: {
-          50: '#fef2f2',
-          100: '#fee2e2',
-          200: '#fecaca',
-          300: '#fca5a5',
-          400: '#f87171',
-          500: '#ef4444', // Red for prices - matches interface price color
-          600: '#dc2626',
-          700: '#b91c1c',
-          800: '#991b1b',
-          900: '#7f1d1d',
+          50: '#7de3fe',   // Light cyan for very light backgrounds
+          100: '#90d9fd',  // Sky for light backgrounds
+          200: '#98befc',  // Light purple for accent backgrounds
+          300: '#4ad3f1',  // Turquoise for medium accents
+          400: '#09a2e3',  // Ocean for strong accents
+          500: '#0438ee',  // Royal for primary accents
+          600: '#0438ee',  // Royal for hover states
+          700: '#0438ee',  // Royal for pressed states
+          800: '#0438ee',  // Royal for dark accents
+          900: '#0438ee',  // Royal for very dark accents
         },
-        // Theme colors for visa system
+        
+        // Status colors using the custom palette
+        'status': {
+          'info': {
+            'bg': '#98befc',     // Light purple background
+            'border': '#4ad3f1', // Turquoise border
+            'text': '#0438ee',   // Royal text
+          },
+          'success': {
+            'bg': '#c5f5dd',     // Mint background
+            'border': '#4ad3f1', // Turquoise border
+            'text': '#0438ee',   // Royal text
+          },
+          'warning': {
+            'bg': '#7de3fe',     // Light cyan background
+            'border': '#09a2e3', // Ocean border
+            'text': '#0438ee',   // Royal text
+          },
+          'error': {
+            'bg': '#90d9fd',     // Sky background
+            'border': '#0438ee', // Royal border
+            'text': '#0438ee',   // Royal text
+          },
+        },
+        
+        // Legacy color compatibility (updated to use new palette)
+        teal: {
+          50: '#7de3fe',
+          100: '#4ad3f1',
+          200: '#90d9fd',
+          300: '#09a2e3',
+          400: '#09a2e3',
+          500: '#0438ee',
+          600: '#0438ee',
+          700: '#0438ee',
+          800: '#0438ee',
+          900: '#0438ee',
+        },
+        coral: {
+          50: '#c5f5dd',
+          100: '#c5f5dd',
+          200: '#4ad3f1',
+          300: '#4ad3f1',
+          400: '#09a2e3',
+          500: '#09a2e3',
+          600: '#0438ee',
+          700: '#0438ee',
+          800: '#0438ee',
+          900: '#0438ee',
+        },
+        
+        // Visa-specific theme colors (updated)
+        'visa-primary': {
+          50: '#7de3fe',
+          100: '#4ad3f1',
+          200: '#90d9fd',
+          300: '#09a2e3',
+          400: '#09a2e3',
+          500: '#0438ee',
+          600: '#0438ee',
+          700: '#0438ee',
+          800: '#0438ee',
+          900: '#0438ee',
+        },
+        'visa-secondary': {
+          50: '#c5f5dd',
+          100: '#c5f5dd',
+          200: '#98befc',
+          300: '#4ad3f1',
+          400: '#4ad3f1',
+          500: '#09a2e3',
+          600: '#09a2e3',
+          700: '#0438ee',
+          800: '#0438ee',
+          900: '#0438ee',
+        },
+        
+        // Keep some original colors for compatibility
         'visa-teal': {
-          50: '#f0fdfa',
-          100: '#ccfbf1',
-          200: '#99f6e4', 
-          300: '#5eead4',
-          400: '#2dd4bf',
-          500: '#14b8a6', // Section headers, filters
-          600: '#0d9488',
-          700: '#0f766e',
-          800: '#115e59',
-          900: '#134e4a',
+          50: '#7de3fe',
+          100: '#4ad3f1',
+          200: '#90d9fd',
+          300: '#09a2e3',
+          400: '#09a2e3',
+          500: '#0438ee',
+          600: '#0438ee',
+          700: '#0438ee',
+          800: '#0438ee',
+          900: '#0438ee',
         },
         'visa-orange': {
-          50: '#fff7ed',
-          100: '#ffedd5',
-          200: '#fed7aa',
-          300: '#fdba74', 
-          400: '#fb923c', // Main action buttons
-          500: '#f97316',
-          600: '#ea580c',
-          700: '#c2410c',
-          800: '#9a3412',
-          900: '#7c2d12',
+          50: '#c5f5dd',
+          100: '#c5f5dd',
+          200: '#98befc',
+          300: '#4ad3f1',
+          400: '#09a2e3',
+          500: '#09a2e3',
+          600: '#0438ee',
+          700: '#0438ee',
+          800: '#0438ee',
+          900: '#0438ee',
         },
         'visa-red': {
           50: '#fef2f2',
@@ -75,50 +163,12 @@ export default {
           200: '#fecaca',
           300: '#fca5a5',
           400: '#f87171',
-          500: '#ef4444', // Price displays, important info
+          500: '#ef4444',
           600: '#dc2626',
           700: '#b91c1c',
           800: '#991b1b',
           900: '#7f1d1d',
         },
-        // Custom dark teal background
-        'visa-dark': {
-          50: '#f0f9fb',
-          100: '#d8f0f4',
-          200: '#b6e2ea',
-          300: '#85cddb',
-          400: '#4fafc4',
-          500: '#207f95', // Main dark teal background
-          600: '#1c6d82',
-          700: '#1a5b6c',
-          800: '#1a4c5a',
-          900: '#1a404c',
-        },
-        // Maintain backward compatibility
-        teal: {
-          50: '#f0fdfa',
-          100: '#ccfbf1',
-          200: '#99f6e4',
-          300: '#5eead4',
-          400: '#2dd4bf',
-          500: '#14b8a6',
-          600: '#0d9488',
-          700: '#0f766e',
-          800: '#115e59',
-          900: '#134e4a',
-        },
-        coral: {
-          50: '#fff7ed',
-          100: '#ffedd5',
-          200: '#fed7aa',
-          300: '#fdba74',
-          400: '#fb923c',
-          500: '#f97316',
-          600: '#ea580c',
-          700: '#c2410c',
-          800: '#9a3412',
-          900: '#7c2d12',
-        }
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
@@ -144,9 +194,10 @@ export default {
         }
       },
       boxShadow: {
-        'card': '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
-        'card-hover': '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
-        'button': '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+        'card': '0 1px 3px 0 rgba(4, 56, 238, 0.1), 0 1px 2px 0 rgba(4, 56, 238, 0.06)',
+        'card-hover': '0 10px 15px -3px rgba(4, 56, 238, 0.1), 0 4px 6px -2px rgba(4, 56, 238, 0.05)',
+        'button': '0 4px 6px -1px rgba(4, 56, 238, 0.1), 0 2px 4px -1px rgba(4, 56, 238, 0.06)',
+        'custom': '0 4px 12px -2px rgba(74, 211, 241, 0.15), 0 2px 6px -1px rgba(9, 162, 227, 0.1)',
       }
     },
   },

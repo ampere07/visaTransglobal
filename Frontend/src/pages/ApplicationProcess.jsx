@@ -22,16 +22,27 @@ import {
   ClipboardList,
   File,
   Search,
-  Globe
+  Globe,
+  AlertCircle,
+  Info
 } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
 import SubscriptionModal from '../components/common/SubscriptionModal'
+import { 
+  getMinimumTravelDate, 
+  validateTravelDate, 
+  getFormattedMinimumDateMessage,
+  getProcessingTimeWarning,
+  calculateDaysUntilTravel 
+} from '../utils/helpers'
 
 const ApplicationProcess = () => {
   const [currentStep, setCurrentStep] = useState(0)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [formData, setFormData] = useState({})
   const [isSubscriptionModalOpen, setIsSubscriptionModalOpen] = useState(false)
+  const [dateErrors, setDateErrors] = useState({})
+  const [processingWarning, setProcessingWarning] = useState(null)
   const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm()
   const { user, isAuthenticated } = useAuth()
 
@@ -157,14 +168,98 @@ const ApplicationProcess = () => {
 
   // Date range handlers for Step 0 (Visa Selection)
   const handleVisaEntryDateChange = (e) => {
-    setValue('entryDateVisa', e.target.value)
+    const value = e.target.value
+    setValue('entryDateVisa', value)
+    
+    // Clear previous errors
+    if (dateErrors.entryDateVisa) {
+      setDateErrors(prev => {
+        const newErrors = { ...prev }
+        delete newErrors.entryDateVisa
+        return newErrors
+      })
+    }
+    
+    // Validate entry date
+    if (value) {
+      const validation = validateTravelDate(value)
+      if (!validation.isValid) {
+        setDateErrors(prev => ({
+          ...prev,
+          entryDateVisa: validation.message
+        }))
+      } else {
+        // Show processing time warning
+        const warning = getProcessingTimeWarning(value)
+        setProcessingWarning(warning)
+      }
+    }
   }
 
   const handleVisaExitDateChange = (e) => {
-    setValue('exitDateVisa', e.target.value)
+    const value = e.target.value
+    setValue('exitDateVisa', value)
+    
+    // Clear previous errors
+    if (dateErrors.exitDateVisa) {
+      setDateErrors(prev => {
+        const newErrors = { ...prev }
+        delete newErrors.exitDateVisa
+        return newErrors
+      })
+    }
+    
+    // Validate exit date
+    if (value) {
+      const validation = validateTravelDate(value)
+      if (!validation.isValid) {
+        setDateErrors(prev => ({
+          ...prev,
+          exitDateVisa: validation.message
+        }))
+      } else {
+        // Check if exit date is after entry date
+        const entryDate = watch('entryDateVisa')
+        if (entryDate && new Date(value) <= new Date(entryDate)) {
+          setDateErrors(prev => ({
+            ...prev,
+            exitDateVisa: 'Exit date must be after entry date'
+          }))
+        }
+      }
+    }
   }
 
   const onSubmit = async (data) => {
+    // Validate travel dates before submission
+    if (data.entryDateVisa || data.exitDateVisa) {
+      const entryValidation = validateTravelDate(data.entryDateVisa)
+      const exitValidation = validateTravelDate(data.exitDateVisa)
+      
+      const errors = {}
+      if (!entryValidation.isValid) {
+        errors.entryDateVisa = entryValidation.message
+      }
+      if (!exitValidation.isValid) {
+        errors.exitDateVisa = exitValidation.message
+      }
+      
+      // Check if exit date is after entry date
+      if (data.entryDateVisa && data.exitDateVisa) {
+        const entryDate = new Date(data.entryDateVisa)
+        const exitDate = new Date(data.exitDateVisa)
+        if (exitDate <= entryDate) {
+          errors.exitDateVisa = 'Exit date must be after entry date'
+        }
+      }
+      
+      if (Object.keys(errors).length > 0) {
+        setDateErrors(errors)
+        toast.error('Please fix the travel date errors before submitting')
+        return
+      }
+    }
+    
     setIsSubmitting(true)
     try {
       const response = await applicationAPI.submit({ ...formData, ...data })
@@ -199,7 +294,7 @@ const ApplicationProcess = () => {
     <>
     <div className="min-h-screen">
       {/* Step Indicators Section - Blue Background */}
-      <div className="py-2 sm:py-8" style={{backgroundColor: '#2596be'}}>
+      <div className="py-2 sm:py-8 bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-800">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Mobile Progress Header */}
         <div className="sm:hidden mb-2">
@@ -232,30 +327,59 @@ const ApplicationProcess = () => {
               return (
                 <div key={step.id} className="flex items-center">
                   <div className="flex flex-col items-center w-24">
-                    <div className={`inline-flex items-center justify-center w-10 h-10 rounded-full border-2 transition-all duration-200 ${
+                    <div className={`relative inline-flex items-center justify-center w-12 h-12 rounded-full border-2 transition-all duration-500 ${
                       isCompleted
-                        ? 'border-white text-white' 
+                        ? 'border-green-400 text-white shadow-lg shadow-green-500/30' 
                         : isCurrent
-                        ? 'border-white text-white'
-                        : 'border-white text-white'
-                    }`} style={{backgroundColor: '#e1842d'}}>
+                        ? 'border-blue-300 text-white ring-2 ring-white/30 shadow-lg shadow-blue-600/30 transform scale-105'
+                        : 'border-blue-200 text-white opacity-70 hover:opacity-100 hover:shadow-md hover:shadow-blue-400/20 hover:scale-105'
+                    }`} style={{backgroundColor: '#5DADE2'}}>
                       {isCompleted ? (
-                        <CheckCircle className="w-5 h-5 flex-shrink-0" />
+                        <div className="relative">
+                          <CheckCircle className="w-6 h-6 flex-shrink-0" />
+                          {/* Success ripple effect */}
+                          <div className="absolute inset-0 w-6 h-6 rounded-full border-2 border-green-400/60 animate-ping opacity-40"></div>
+                        </div>
                       ) : (
-                        <Icon className="w-5 h-5 flex-shrink-0" />
+                        <Icon className={`w-5 h-5 flex-shrink-0 transition-all duration-300 ${
+                          isCurrent ? 'transform scale-110' : ''
+                        }`} />
+                      )}
+                      
+                      {/* Completion celebration sparkle */}
+                      {isCompleted && (
+                        <>
+                          <div className="absolute -top-1 -right-1 w-2 h-2 bg-green-400 rounded-full animate-pulse shadow-lg"></div>
+                          <div className="absolute -bottom-1 -left-1 w-1.5 h-1.5 bg-green-300 rounded-full animate-pulse" style={{animationDelay: '300ms'}}></div>
+                        </>
                       )}
                     </div>
-                    <div className={`mt-2 text-center w-full ${
-                      isCurrent ? 'text-white font-semibold' : isCompleted ? 'text-white' : 'text-white opacity-70'
+                    
+                    <div className={`mt-3 text-center w-full transition-all duration-300 ${
+                      isCurrent 
+                        ? 'text-white font-semibold drop-shadow-sm' 
+                        : isCompleted 
+                        ? 'text-green-100 font-semibold drop-shadow-sm' 
+                        : 'text-white/90 font-medium'
                     }`}>
-                      <p className="text-sm font-medium hidden lg:block">{step.title}</p>
-                      <p className="text-sm font-medium lg:hidden">{step.shortTitle}</p>
+                      <p className="text-sm font-medium hidden lg:block leading-tight">{step.title}</p>
+                      <p className="text-sm font-medium lg:hidden leading-tight">{step.shortTitle}</p>
                     </div>
                   </div>
+                  
                   {index < steps.length - 1 && (
-                    <div className={`mx-2 lg:mx-4 h-0.5 w-8 lg:w-16 transition-all duration-200 ${
-                      currentStep > step.id ? 'bg-primary-600' : 'bg-gray-300'
-                    }`} />
+                    <div className="relative mx-4 lg:mx-6 w-16 lg:w-24 h-1 rounded-full overflow-hidden bg-blue-200/30">
+                      <div className={`absolute left-0 top-0 h-full rounded-full transition-all duration-700 ease-out ${
+                        currentStep > step.id 
+                          ? 'w-full bg-gradient-to-r from-green-400 to-green-600 shadow-sm' 
+                          : 'w-0 bg-blue-300/40'
+                      }`} />
+                      
+                      {/* Animated shimmer effect when progressing */}
+                      {currentStep > step.id && (
+                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-green-300/50 to-transparent animate-pulse"></div>
+                      )}
+                    </div>
                   )}
                 </div>
               )
@@ -325,7 +449,7 @@ const ApplicationProcess = () => {
                       required
                     />
 
-                    {/* UPDATED: Replace the two separate date inputs with DateRangePicker */}
+                    {/* Travel Dates with 2-week minimum restriction */}
                     <DateRangePicker
                       label="Travel Dates"
                       startDateName="entryDateVisa"
@@ -336,11 +460,12 @@ const ApplicationProcess = () => {
                       onEndDateChange={handleVisaExitDateChange}
                       register={register}
                       watch={watch}
-                      error={errors.entryDateVisa?.message || errors.exitDateVisa?.message}
+                      error={errors.entryDateVisa?.message || errors.exitDateVisa?.message || dateErrors.entryDateVisa || dateErrors.exitDateVisa}
                       required
-                      min={new Date().toISOString().split('T')[0]}
+                      min={getMinimumTravelDate()}
                       className="mb-4"
                     />
+                    
 
                     {/* Add DateRangeIndicator for better visual feedback */}
                     <DateRangeIndicator
@@ -349,6 +474,46 @@ const ApplicationProcess = () => {
                       startLabel="Entry Date"
                       endLabel="Exit Date"
                     />
+                    
+                    {/* Processing Time Information */}
+                    <div className="bg-[#98befc] border border-[#4ad3f1] rounded-lg p-4">
+                      <div className="flex items-start gap-3">
+                        <Info className="w-5 h-5 text-[#0438ee] mt-0.5 flex-shrink-0" />
+                        <div className="space-y-2">
+                          <h4 className="text-sm font-semibold text-[#0438ee]">
+                            Travel Date Requirements
+                          </h4>
+                          <p className="text-sm text-[#0438ee]">
+                            {getFormattedMinimumDateMessage()}
+                          </p>
+                          <p className="text-xs text-[#0438ee] opacity-90">
+                            This 2-week buffer ensures our admin team has adequate time to process your visa application and supporting documents.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Processing Warning */}
+                    {processingWarning && (
+                      <div className={`border rounded-lg p-4 ${processingWarning.colors.bg} ${processingWarning.colors.border}`}>
+                        <div className="flex items-start gap-3">
+                          <AlertCircle className={`w-5 h-5 mt-0.5 flex-shrink-0 ${processingWarning.colors.icon}`} />
+                          <div>
+                            <p className={`text-sm font-medium ${processingWarning.colors.text}`}>
+                              Processing Time Notice
+                            </p>
+                            <p className={`text-sm ${processingWarning.colors.text} opacity-90`}>
+                              {processingWarning.message}
+                            </p>
+                            {watch('entryDateVisa') && (
+                              <p className={`text-xs mt-1 ${processingWarning.colors.text} opacity-75`}>
+                                Days until travel: {calculateDaysUntilTravel(watch('entryDateVisa'))}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    )}
 
                     {/* Visa Information Display */}
                     <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-6">

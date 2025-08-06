@@ -21,23 +21,49 @@
   }
   
   .btn-primary {
-    @apply btn-base bg-visa-teal-500 hover:bg-visa-teal-600 text-white py-3 px-6 rounded-lg shadow-button hover:shadow-card-hover;
+    @apply btn-base text-white py-3 px-6 rounded-lg shadow-button hover:shadow-card-hover;
+    background-color: #0438ee;
+  }
+  
+  .btn-primary:hover {
+    background-color: #09a2e3;
   }
   
   .btn-secondary {
-    @apply btn-base bg-visa-orange-400 hover:bg-visa-orange-500 text-white py-3 px-6 rounded-lg shadow-button hover:shadow-card-hover;
+    @apply btn-base text-white py-3 px-6 rounded-lg shadow-button hover:shadow-card-hover;
+    background-color: #09a2e3;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #4ad3f1;
   }
   
   .btn-outline {
-    @apply btn-base bg-white text-visa-teal-600 border-2 border-visa-teal-600 hover:bg-visa-teal-50 py-2 px-4 rounded-lg;
+    @apply btn-base bg-white py-2 px-4 rounded-lg border-2;
+    color: #0438ee;
+    border-color: #4ad3f1;
+  }
+  
+  .btn-outline:hover {
+    background-color: #7de3fe;
   }
   
   .btn-apply-now {
-    @apply btn-base bg-visa-orange-400 hover:bg-visa-orange-500 text-white font-bold py-3 px-8 rounded-lg shadow-button hover:shadow-card-hover transform hover:scale-105 active:scale-95 uppercase text-sm tracking-wide;
+    @apply btn-base text-white font-bold py-3 px-8 rounded-lg shadow-button hover:shadow-card-hover transform hover:scale-105 active:scale-95 uppercase text-sm tracking-wide;
+    background-color: #09a2e3;
+  }
+  
+  .btn-apply-now:hover {
+    background-color: #4ad3f1;
   }
   
   .btn-book {
-    @apply btn-base bg-visa-orange-400 hover:bg-visa-orange-500 text-white font-bold py-3 px-8 rounded-lg shadow-button hover:shadow-card-hover transform hover:scale-105 active:scale-95;
+    @apply btn-base text-white font-bold py-3 px-8 rounded-lg shadow-button hover:shadow-card-hover transform hover:scale-105 active:scale-95;
+    background-color: #09a2e3;
+  }
+  
+  .btn-book:hover {
+    background-color: #4ad3f1;
   }
   
   /* Floating Label Components */
@@ -208,28 +234,33 @@
   
   /* Visa Theme Gradients */
   .gradient-bg {
-    @apply bg-gradient-to-br from-visa-teal-500 via-visa-teal-600 to-visa-teal-700;
+    background: linear-gradient(135deg, #0438ee 0%, #09a2e3 50%, #4ad3f1 100%);
   }
   
   .gradient-bg-secondary {
-    @apply bg-gradient-to-br from-visa-orange-400 via-visa-orange-500 to-visa-orange-600;
+    background: linear-gradient(135deg, #09a2e3 0%, #4ad3f1 50%, #7de3fe 100%);
   }
   
   .visa-gradient {
-    @apply bg-gradient-to-r from-visa-teal-500 to-visa-orange-400;
+    background: linear-gradient(90deg, #0438ee 0%, #09a2e3 100%);
   }
   
   /* Visa Text Styles */
   .text-gradient {
-    @apply bg-gradient-to-r from-visa-teal-600 to-visa-orange-500 bg-clip-text text-transparent;
+    background: linear-gradient(90deg, #0438ee 0%, #09a2e3 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
   
   .price-text {
-    @apply text-2xl font-bold text-visa-red-500;
+    @apply text-2xl font-bold;
+    color: #0438ee;
   }
   
   .visa-price {
-    @apply text-3xl font-bold text-visa-red-500;
+    @apply text-3xl font-bold;
+    color: #0438ee;
   }
   
   .visa-country {
@@ -237,11 +268,13 @@
   }
   
   .visa-type {
-    @apply text-lg text-gray-600 font-medium;
+    @apply text-lg font-medium;
+    color: #09a2e3;
   }
   
   .processing-time {
-    @apply text-sm text-gray-500 font-medium;
+    @apply text-sm font-medium;
+    color: #4ad3f1;
   }
   
   /* Visa Badges and Status Indicators */
@@ -250,44 +283,64 @@
   }
   
   .badge-teal {
-    @apply badge bg-visa-teal-100 text-visa-teal-800;
+    @apply badge;
+    background-color: #7de3fe;
+    color: #0438ee;
   }
   
   .badge-orange {
-    @apply badge bg-visa-orange-100 text-visa-orange-800;
+    @apply badge;
+    background-color: #c5f5dd;
+    color: #0438ee;
   }
   
   .badge-coral {
-    @apply badge bg-coral-100 text-coral-800;
+    @apply badge;
+    background-color: #98befc;
+    color: #0438ee;
   }
   
   .status-approved {
-    @apply badge bg-green-100 text-green-800;
+    @apply badge;
+    background-color: #c5f5dd;
+    color: #0438ee;
   }
   
   .status-pending {
-    @apply badge bg-yellow-100 text-yellow-800;
+    @apply badge;
+    background-color: #7de3fe;
+    color: #0438ee;
   }
   
   .status-rejected {
-    @apply badge bg-red-100 text-red-800;
+    @apply badge;
+    background-color: #90d9fd;
+    color: #0438ee;
   }
   
   .visa-urgent {
-    @apply badge bg-visa-red-100 text-visa-red-800 animate-pulse;
+    @apply badge animate-pulse;
+    background-color: #90d9fd;
+    color: #0438ee;
   }
   
   /* Visa Tags and Labels */
   .tag {
-    @apply inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-800;
+    @apply inline-flex items-center px-2 py-1 rounded text-xs font-medium;
+    background-color: #98befc;
+    color: #0438ee;
   }
   
   .visa-tag {
-    @apply inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-visa-teal-100 text-visa-teal-800;
+    @apply inline-flex items-center px-2 py-1 rounded text-xs font-medium;
+    background-color: #7de3fe;
+    color: #0438ee;
   }
   
   .requirement-tag {
-    @apply inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-blue-100 text-blue-800;
+    @apply inline-flex items-center px-2 py-1 rounded text-xs font-medium;
+    background-color: #c5f5dd;
+    color: #0438ee;
   }
   
   /* Filter Components - matching flight booking interface */
