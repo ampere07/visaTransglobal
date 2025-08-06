@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { Search, Globe, Clock, Shield, CheckCircle, ArrowRight, Users, Award, Zap } from 'lucide-react'
+import { Search, Globe, Clock, Shield, CheckCircle, ArrowRight, Users, Award, Zap, AlertCircle, Info } from 'lucide-react'
 import { COUNTRIES, PURPOSE_OF_VISIT } from '../utils/constants'
 import FloatingInput from '../components/common/FloatingInput'
 import AuthModal from '../components/auth/AuthModal'
+import { 
+  getMinimumTravelDate, 
+  validateTravelDate, 
+  getFormattedMinimumDateMessage,
+  getProcessingTimeWarning,
+  calculateDaysUntilTravel 
+} from '../utils/helpers'
 
 const HomePage = () => {
   const [formData, setFormData] = useState({
@@ -15,6 +22,8 @@ const HomePage = () => {
   })
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false)
   const [authMode, setAuthMode] = useState('login')
+  const [dateErrors, setDateErrors] = useState({})
+  const [processingWarning, setProcessingWarning] = useState(null)
 
   const navigate = useNavigate()
   const location = useLocation()
@@ -29,7 +38,36 @@ const HomePage = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    // Store form data and navigate directly to application process
+    
+    // Validate travel dates before submission
+    const entryValidation = validateTravelDate(formData.entryDate)
+    const exitValidation = validateTravelDate(formData.exitDate)
+    
+    const errors = {}
+    if (!entryValidation.isValid) {
+      errors.entryDate = entryValidation.message
+    }
+    if (!exitValidation.isValid) {
+      errors.exitDate = exitValidation.message
+    }
+    
+    // Check if exit date is after entry date
+    if (formData.entryDate && formData.exitDate) {
+      const entryDate = new Date(formData.entryDate)
+      const exitDate = new Date(formData.exitDate)
+      if (exitDate <= entryDate) {
+        errors.exitDate = 'Exit date must be after entry date'
+      }
+    }
+    
+    setDateErrors(errors)
+    
+    // If there are validation errors, don't submit
+    if (Object.keys(errors).length > 0) {
+      return
+    }
+    
+    // Store form data and navigate to application process
     sessionStorage.setItem('visaSearchData', JSON.stringify(formData))
     navigate('/application')
   }
@@ -40,6 +78,32 @@ const HomePage = () => {
       ...prev,
       [name]: value
     }))
+    
+    // Clear previous errors for this field
+    if (dateErrors[name]) {
+      setDateErrors(prev => {
+        const newErrors = { ...prev }
+        delete newErrors[name]
+        return newErrors
+      })
+    }
+    
+    // Real-time date validation and processing warnings
+    if ((name === 'entryDate' || name === 'exitDate') && value) {
+      const validation = validateTravelDate(value)
+      if (!validation.isValid) {
+        setDateErrors(prev => ({
+          ...prev,
+          [name]: validation.message
+        }))
+      } else {
+        // Show processing time warning for entry date
+        if (name === 'entryDate') {
+          const warning = getProcessingTimeWarning(value)
+          setProcessingWarning(warning)
+        }
+      }
+    }
   }
 
   return (
@@ -133,25 +197,81 @@ const HomePage = () => {
 
                   {/* Dates - Mobile stacked */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <FloatingInput
-                      type="date"
-                      name="entryDate"
-                      label="Entry Date"
-                      value={formData.entryDate}
-                      onChange={handleInputChange}
-                      min={new Date().toISOString().split('T')[0]}
-                      required
-                    />
-                    <FloatingInput
-                      type="date"
-                      name="exitDate"
-                      label="Exit Date"
-                      value={formData.exitDate}
-                      onChange={handleInputChange}
-                      min={formData.entryDate || new Date().toISOString().split('T')[0]}
-                      required
-                    />
+                    <div className="space-y-2">
+                      <FloatingInput
+                        type="date"
+                        name="entryDate"
+                        label="Entry Date"
+                        value={formData.entryDate}
+                        onChange={handleInputChange}
+                        min={getMinimumTravelDate()}
+                        required
+                      />
+                      {dateErrors.entryDate && (
+                        <p className="text-[#0438ee] text-sm flex items-start gap-1">
+                          <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                          {dateErrors.entryDate}
+                        </p>
+                      )}
+                    </div>
+                    <div className="space-y-2">
+                      <FloatingInput
+                        type="date"
+                        name="exitDate"
+                        label="Exit Date"
+                        value={formData.exitDate}
+                        onChange={handleInputChange}
+                        min={formData.entryDate || getMinimumTravelDate()}
+                        required
+                      />
+                      {dateErrors.exitDate && (
+                        <p className="text-[#0438ee] text-sm flex items-start gap-1">
+                          <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                          {dateErrors.exitDate}
+                        </p>
+                      )}
+                    </div>
                   </div>
+                  
+                  {/* Processing Time Information */}
+                  <div className="bg-[#98befc] border border-[#4ad3f1] rounded-lg p-4">
+                    <div className="flex items-start gap-3">
+                      <Info className="w-5 h-5 text-[#0438ee] mt-0.5 flex-shrink-0" />
+                      <div className="space-y-2">
+                        <h4 className="text-sm font-semibold text-[#0438ee]">
+                          Travel Date Requirements
+                        </h4>
+                        <p className="text-sm text-[#0438ee]">
+                          {getFormattedMinimumDateMessage()}
+                        </p>
+                        <p className="text-xs text-[#0438ee] opacity-90">
+                          This 2-week buffer ensures our admin team has adequate time to process your visa application and supporting documents.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Processing Warning */}
+                  {processingWarning && (
+                    <div className={`border rounded-lg p-4 ${processingWarning.colors.bg} ${processingWarning.colors.border}`}>
+                      <div className="flex items-start gap-3">
+                        <AlertCircle className={`w-5 h-5 mt-0.5 flex-shrink-0 ${processingWarning.colors.icon}`} />
+                        <div>
+                          <p className={`text-sm font-medium ${processingWarning.colors.text}`}>
+                            Processing Time Notice
+                          </p>
+                          <p className={`text-sm ${processingWarning.colors.text} opacity-90`}>
+                            {processingWarning.message}
+                          </p>
+                          {formData.entryDate && (
+                            <p className={`text-xs mt-1 ${processingWarning.colors.text} opacity-75`}>
+                              Days until travel: {calculateDaysUntilTravel(formData.entryDate)}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Submit Button - Mobile optimized */}
                   <button

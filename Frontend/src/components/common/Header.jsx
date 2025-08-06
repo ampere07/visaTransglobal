@@ -36,7 +36,7 @@ const Header = () => {
             {/* Logo */}
             <div className="flex-shrink-0">
               <Link to="/" className="flex items-center">
-                <div className="w-8 h-8 bg-gradient-to-r from-teal-500 to-coral-400 rounded-lg flex items-center justify-center mr-3">
+                <div className="w-8 h-8 rounded-lg flex items-center justify-center mr-3" style={{background: 'linear-gradient(135deg, #0438ee 0%, #4ad3f1 100%)'}}>
                   <FileText className="w-5 h-5 text-white" />
                 </div>
                 <span className="text-xl font-bold text-gradient">ADOBO VISA</span>
@@ -51,8 +51,8 @@ const Header = () => {
                   to={item.href}
                   className={`px-3 py-2 text-sm font-medium rounded-md transition-colors duration-200 ${
                     item.current
-                      ? 'text-teal-600 bg-teal-50'
-                      : 'text-gray-700 hover:text-teal-600 hover:bg-gray-50'
+                      ? 'text-[#0438ee] bg-[#7de3fe]'
+                      : 'text-gray-700 hover:text-[#0438ee] hover:bg-gray-50'
                   }`}
                 >
                   {item.name}
@@ -66,7 +66,7 @@ const Header = () => {
                 <div className="relative">
                   <button
                     onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                    className="flex items-center space-x-2 text-gray-700 hover:text-teal-600 px-3 py-2 rounded-md transition-colors duration-200"
+                    className="flex items-center space-x-2 text-gray-700 hover:text-[#0438ee] px-3 py-2 rounded-md transition-colors duration-200"
                   >
                     <User className="w-5 h-5" />
                     <span className="text-sm font-medium">
@@ -119,7 +119,7 @@ const Header = () => {
                       setAuthMode('login')
                       setIsAuthModalOpen(true)
                     }}
-                    className="text-gray-700 hover:text-teal-600 px-3 py-2 text-sm font-medium transition-colors duration-200"
+                    className="text-gray-700 hover:text-[#0438ee] px-3 py-2 text-sm font-medium transition-colors duration-200"
                   >
                     Sign in
                   </button>
@@ -161,8 +161,8 @@ const Header = () => {
                     to={item.href}
                     className={`block px-3 py-2 text-base font-medium rounded-md transition-colors duration-200 ${
                       item.current
-                        ? 'text-primary-600 bg-primary-50'
-                        : 'text-gray-700 hover:text-primary-600 hover:bg-gray-50'
+                        ? 'text-[#0438ee] bg-[#7de3fe]'
+                        : 'text-gray-700 hover:text-[#0438ee] hover:bg-gray-50'
                     }`}
                     onClick={() => setIsMenuOpen(false)}
                   >
@@ -179,7 +179,7 @@ const Header = () => {
                       </div>
                       <Link
                         to="/dashboard"
-                        className="nav-button block text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md"
+                        className="nav-button block text-base font-medium text-gray-700 hover:text-[#0438ee] hover:bg-gray-50 rounded-md"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         <User className="btn-icon" />
@@ -188,7 +188,7 @@ const Header = () => {
                       {user?.userType === 'admin' && (
                         <Link
                           to="/admin"
-                          className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors duration-200"
+                          className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-[#0438ee] hover:bg-gray-50 rounded-md transition-colors duration-200"
                           onClick={() => setIsMenuOpen(false)}
                         >
                           <Shield className="w-5 h-5 inline mr-2" />
@@ -197,7 +197,7 @@ const Header = () => {
                       )}
                       <button
                       onClick={handleLogout}
-                      className="nav-button block w-full text-left text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md"
+                      className="nav-button block w-full text-left text-base font-medium text-gray-700 hover:text-[#0438ee] hover:bg-gray-50 rounded-md"
                       >
                       <LogOut className="btn-icon" />
                       <span>Sign out</span>
@@ -211,7 +211,7 @@ const Header = () => {
                           setIsAuthModalOpen(true)
                           setIsMenuOpen(false)
                         }}
-                        className="block w-full text-left px-3 py-2 text-base font-medium text-gray-700 hover:text-primary-600 hover:bg-gray-50 rounded-md transition-colors duration-200"
+                        className="block w-full text-left px-3 py-2 text-base font-medium text-gray-700 hover:text-[#0438ee] hover:bg-gray-50 rounded-md transition-colors duration-200"
                       >
                         Sign in
                       </button>

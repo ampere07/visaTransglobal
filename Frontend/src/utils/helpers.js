@@ -101,3 +101,100 @@ export const formatPhoneNumber = (phone) => {
   }
   return phone
 }
+
+// Travel Date Validation Functions
+export const getMinimumTravelDate = () => {
+  const today = new Date()
+  const minimumDate = new Date(today)
+  minimumDate.setDate(today.getDate() + 14) // Add 14 days (2 weeks)
+  return minimumDate.toISOString().split('T')[0] // Return YYYY-MM-DD format
+}
+
+export const getTwoWeeksFromNow = () => {
+  const today = new Date()
+  const twoWeeksLater = new Date(today)
+  twoWeeksLater.setDate(today.getDate() + 14)
+  return twoWeeksLater
+}
+
+export const validateTravelDate = (date) => {
+  if (!date) return { isValid: false, message: 'Date is required' }
+  
+  const selectedDate = new Date(date)
+  const minimumDate = getTwoWeeksFromNow()
+  
+  if (selectedDate < minimumDate) {
+    return {
+      isValid: false,
+      message: `Travel date must be at least 2 weeks from today (minimum: ${formatDate(minimumDate)})`
+    }
+  }
+  
+  return { isValid: true, message: '' }
+}
+
+export const getFormattedMinimumDateMessage = () => {
+  const minimumDate = getTwoWeeksFromNow()
+  return `Earliest available travel date: ${formatDate(minimumDate)}`
+}
+
+export const calculateDaysUntilTravel = (travelDate) => {
+  if (!travelDate) return 0
+  
+  const today = new Date()
+  const travel = new Date(travelDate)
+  const timeDiff = travel.getTime() - today.getTime()
+  const daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24))
+  
+  return daysDiff
+}
+
+export const getProcessingTimeWarning = (travelDate) => {
+  const daysUntil = calculateDaysUntilTravel(travelDate)
+  
+  if (daysUntil < 14) {
+    return {
+      type: 'error',
+      message: 'Travel date must be at least 2 weeks from today to allow processing time.',
+      colors: {
+        bg: 'bg-[#90d9fd]',        // Sky blue background
+        border: 'border-[#0438ee]', // Royal blue border
+        text: 'text-[#0438ee]',     // Royal blue text
+        icon: 'text-[#0438ee]'      // Royal blue icon
+      }
+    }
+  } else if (daysUntil < 21) {
+    return {
+      type: 'warning',
+      message: 'Limited processing time available. Consider expedited service if needed.',
+      colors: {
+        bg: 'bg-[#7de3fe]',        // Light cyan background
+        border: 'border-[#09a2e3]', // Ocean blue border
+        text: 'text-[#0438ee]',     // Royal blue text
+        icon: 'text-[#09a2e3]'      // Ocean blue icon
+      }
+    }
+  } else if (daysUntil < 30) {
+    return {
+      type: 'info',
+      message: 'Standard processing time available.',
+      colors: {
+        bg: 'bg-[#98befc]',        // Light purple background
+        border: 'border-[#4ad3f1]', // Turquoise border
+        text: 'text-[#0438ee]',     // Royal blue text
+        icon: 'text-[#4ad3f1]'      // Turquoise icon
+      }
+    }
+  }
+  
+  return {
+    type: 'success',
+    message: 'Ample processing time available.',
+    colors: {
+      bg: 'bg-[#c5f5dd]',        // Mint green background
+      border: 'border-[#4ad3f1]', // Turquoise border
+      text: 'text-[#0438ee]',     // Royal blue text
+      icon: 'text-[#4ad3f1]'      // Turquoise icon
+    }
+  }
+}
